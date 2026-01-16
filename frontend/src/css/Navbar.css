@@ -1,10 +1,11 @@
 .navbar {
     background-color: #4a73e4;
-    padding: 16px 24px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    padding: 10px 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     position: relative;
     top: 0;
     z-index: 1000;
+    margin-bottom: 1%;
 }
 
 .navbar-list {
@@ -13,31 +14,34 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 20px;
+    gap: 16px;
+}
+
+.navbar-list li {
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-list li a,
 .navbar-list li button {
     background-color: white;
-    color: #222088;
-    border: 2px solid white;
-    font-size: 19px;
+    color: #08068f;
+    border: 1.5px solid white;
+    font-size: 15px;
     font-weight: 500;
-    padding: 10px 16px;
-    border-radius: 6px;
+    padding: 10px 18px;
+    border-radius: 5px;
     text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
     box-sizing: border-box;
     display: inline-block;
     user-select: none;
-    transform: scale(1);
 }
 
 .navbar-list li a:hover,
 .navbar-list li button:hover {
-    background-color: #222088;
+    background-color: #2945c4;
     color: white;
     border-color: white;
-    transform: scale(1); 
 }

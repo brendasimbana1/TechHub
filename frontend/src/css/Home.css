@@ -77,11 +77,12 @@ strong {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    margin-top: 5%;
     margin-left: 10%;
 }
 
 img.login-logo {
-    max-width: 100%; 
+    max-width: 60%; 
     height: auto; 
 }
 

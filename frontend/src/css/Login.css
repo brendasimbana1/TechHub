@@ -78,7 +78,7 @@
   font-weight: 700;
   cursor: pointer;
   width: 100%;
-  box-shadow: 0 4px 14px rgba(155, 0, 68, 0.5);
+  box-shadow: 0 4px 14px rgba(0, 16, 155, 0.5);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
