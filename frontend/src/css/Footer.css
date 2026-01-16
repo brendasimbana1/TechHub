@@ -1,0 +1,42 @@
+.footer {
+    background-color: #1a0b70;
+    padding: 10px;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-text {
+    color: white;
+    margin: 10px 0;
+}
+
+.whatsapp-button {
+    background-color: white;          
+    color: #1a0b70;                   
+    border: 2px solid white;         
+    font-size: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    box-sizing: border-box;
+    user-select: none;
+    display: inline-block;
+    transform: scale(1);
+}
+
+.whatsapp-button:hover {
+    background-color: #1a0b70;        
+    color: white;                     
+    border-color: white;              
+    transform: scale(1);
+}
+
+.whatsapp-link {
+    text-decoration: none;
+}
