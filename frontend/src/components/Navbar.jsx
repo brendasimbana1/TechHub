@@ -46,7 +46,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
                   <NavLink to="/cita">Solicitar Tutoría</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/MisCitas">Mis Citas</NavLink>
+                  <NavLink to="/MisCitas">Mis Tutorias</NavLink>
                 </li>
               </>
             )}

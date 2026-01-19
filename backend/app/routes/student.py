@@ -84,3 +84,41 @@ def get_tutors_by_materia():
         return jsonify(output), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@student_bp.route('/my-requests', methods=['GET'])
+@jwt_required()
+def get_my_requests():
+    """Obtiene el historial de tutorías del estudiante autenticado"""
+    estudiante_id = get_jwt_identity()
+    
+    try:
+        cursor = mongo.db.solicitudes.find({"estudiante_id": str(estudiante_id)}).sort("creado_en", -1)
+        
+        mis_citas = []
+        for doc in cursor:
+            mis_citas.append({
+                "id": str(doc["_id"]),
+                "materia": doc.get("materia"),
+                "fecha": doc.get("fecha"),
+                "hora": doc.get("hora"),
+                "estado": doc.get("estado", "pendiente"),
+                "mensaje": doc.get("mensaje", "Sin temas especificados"),
+                "creado_en": doc.get("creado_en")
+            })
+
+        estudiante_user = mongo.db.users.find_one({"_id": ObjectId(estudiante_id)}, {"email": 1})
+        email_log = estudiante_user['email'] if estudiante_user else "Estudiante Desconocido"
+
+        registrar_log(
+            email=email_log,
+            rol="estudiante",
+            accion="CONSULTAR_MIS_CITAS",
+            detalle="El estudiante consultó su historial de solicitudes de tutoría",
+            ip_address=request.remote_addr
+        )
+
+        return jsonify(mis_citas), 200
+
+    except Exception as e:
+        logger.error(f"Error al obtener citas del estudiante: {e}")
+        return jsonify({"error": "Error al cargar el historial de tutorías"}), 500
