@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../css/Actividad.css"; // Crearemos este CSS abajo
+import "../css/Actividad.css";
 import { Toaster, toast } from 'react-hot-toast';
 
 const Actividad = () => {
@@ -47,7 +47,7 @@ const Actividad = () => {
       <div className="actividad-card">
         <header className="actividad-header">
           <h1>Bitácora de Actividad</h1>
-          <p>Registro histórico de eventos y seguridad del sistema (SGSI)</p>
+          <p>Registro histórico de eventos y seguridad del sistema.</p>
         </header>
 
         {loading ? (
@@ -76,7 +76,6 @@ const Actividad = () => {
                         </span>
                       </td>
                       <td className="col-accion">
-                        {/* Lógica visual para destacar errores */}
                         <span style={{ 
                           color: log.accion.includes('FALLIDO') ? '#c62828' : '#2e7d32',
                           fontWeight: 'bold'

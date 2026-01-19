@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import "../css/CrearTutor.css"; 
+import "../css/CrearTutor.css";
 
 const CrearTutor = () => {
   const [formData, setFormData] = useState({
@@ -14,19 +14,25 @@ const CrearTutor = () => {
   const [listaMaterias, setListaMaterias] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const isFormValid = 
+    formData.nombre.trim() !== "" &&
+    formData.email.trim() !== "" &&
+    formData.password.trim() !== "" &&
+    materiasSeleccionadas.length > 0;
+
   useEffect(() => {
     const fetchMaterias = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch("http://localhost:5000/api/admin/materias", {
           headers: {
-            "Authorization": `Bearer ${token}` 
+            "Authorization": `Bearer ${token}`
           }
         });
 
         if (response.ok) {
           const data = await response.json();
-          setListaMaterias(data); 
+          setListaMaterias(data);
         } else {
           toast.error("No se pudieron cargar las asignaturas");
         }
@@ -52,17 +58,11 @@ const CrearTutor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (materiasSeleccionadas.length === 0) {
-      toast.error("Debes asignar al menos una materia.");
-      return;
-    }
-
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-      
+
       const payload = {
         nombre: formData.nombre,
         email: formData.email,
@@ -132,11 +132,12 @@ const CrearTutor = () => {
           <div className="form-group">
             <label>Contraseña</label>
             <input
-              type="text"
+              type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Asigna una contraseña inicial"
+              placeholder="Ingresa la contraseña"
+              minLength={8}
               required
             />
           </div>
@@ -152,7 +153,7 @@ const CrearTutor = () => {
 
           <div className="form-group">
             <label>Asignaturas Autorizadas</label>
-            
+
             {listaMaterias.length === 0 ? (
               <p style={{ fontSize: '0.9rem', color: '#666', fontStyle: 'italic' }}>
                 Cargando materias disponibles...
@@ -171,13 +172,17 @@ const CrearTutor = () => {
                 ))}
               </div>
             )}
-            
+
             <p className="selection-count">
               {materiasSeleccionadas.length} materias seleccionadas
             </p>
           </div>
 
-          <button type="submit" className="submit-btn" disabled={loading}>
+          <button 
+            type="submit" 
+            className="submit-btn" 
+            disabled={loading || !isFormValid}
+          >
             {loading ? "Registrando..." : "Crear Perfil de Tutor"}
           </button>
         </form>
