@@ -1,46 +1,47 @@
+/* Unificando estilos base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f4f8;
-  height: 100vh;
-}
-
 .form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+  min-height: 100vh;
+  background: #f0f5f8;
   font-family: 'Arial', sans-serif;
+  padding: 40px 20px;
 }
 
 .form-container-box {
   background: #fff;
-  padding: 2.5rem 3rem;
-  border-radius: 10px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 12px; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   text-align: center;
   width: 100%;
-  max-width: 500px;
+  max-width: 550px; 
+  transition: transform 0.3s ease;
+}
+
+.form-container-box:hover {
+  transform: translateY(-5px);
 }
 
 h1 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #4a90e2;
-  padding: 5%;
+  margin-bottom: 1rem;
+  color: #222088;
   font-weight: 700;
+  font-size: 2rem;
 }
 
 h2 {
-  padding: 2%;
-  color: #4a4a4a;
+  padding: 10px 0;
+  color: #555;
   font-weight: 600;
+  font-size: 1.2rem;
 }
 
 .appointment-form {
@@ -49,77 +50,83 @@ h2 {
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 1.5rem;
   text-align: left;
 }
 
 label {
-  font-weight: bold;
-  margin-bottom: 8px;
   display: block;
-  color: #333;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 600;
 }
 
+/* Inputs y Selects con el estilo del Login */
+select,
+input[type="date"],
+input[type="text"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd; /* Borde más grueso como el login */
+  border-radius: 8px;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+select:focus,
+input[type="date"]:focus,
+input[type="text"]:focus {
+  border-color: #222088;
+  box-shadow: 0 0 8px rgba(34, 32, 136, 0.3);
+}
+
+/* Radio buttons mejor alineados */
 .radio-group {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  gap: 8px;
+  padding: 5px 0;
 }
 
 .radio-group label {
   font-weight: 400;
   color: #555;
   cursor: pointer;
-  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
 }
 
 input[type="radio"] {
-  margin-right: 10px;
-  cursor: pointer;
+  margin-right: 12px;
+  accent-color: #222088; /* Color del círculo del radio */
+  transform: scale(1.2);
 }
 
-select,
-input[type="date"],
-input[type="text"] {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1.5px solid #ccc;
-  border-radius: 6px;
-  margin-top: 6px;
-  font-size: 1rem;
-  background-color: #fafafa;
-  transition: border-color 0.25s ease;
-  outline-offset: 2px;
-}
-
-select:focus,
-input[type="date"]:focus,
-input[type="text"]:focus {
-  border-color: #201675;
-  background-color: #fff;
-  outline: none;
-  box-shadow: 0 0 8px rgba(54, 48, 139, 0.4);
-}
-
-.input-field {
-  background-color: #fafafa;
-}
-
+/* Botón idéntico al login-button */
 .submit-button {
-  background-color: #201675;
+  background-color: #222088;
   color: white;
-  padding: 12px 20px;
   border: none;
-  border-radius: 6px;
+  padding: 0.85rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 25px;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 10px rgba(139, 67, 110, 0.6);
+  width: 100%;
+  margin-top: 1rem;
+  box-shadow: 0 4px 14px rgba(34, 32, 136, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s;
 }
 
 .submit-button:hover {
-  background-color: #2575fc;
-  box-shadow: 0 6px 20px rgba(37, 117, 252, 0.7);
+  background-color: #02006e;
+  box-shadow: 0 6px 20px rgba(2, 0, 110, 0.6);
+  transform: translateY(-2px);
+}
+
+.submit-button:active {
+  transform: scale(0.98);
 }

@@ -4,21 +4,20 @@ from bson import ObjectId
 
 
 class User:
-    def __init__(self, email, password, nombre, semestre, rol="estudiante"):
+    def __init__(self, email, password, nombre, rol="estudiante", **kwargs):
         self.email = email
         self.password = password
         self.nombre = nombre
-        self.semestre = int(semestre)
         self.rol = rol
         
-        # Campos específicos para Tutores (soportan fetchTutores y horarios-disponibles)
-        self.materias = [] # Lista de materias que dicta (strings o IDs)
-        self.disponibilidad = [] # Para registerHorario
+        self.semestre = kwargs.get('semestre')
+        self.materias = kwargs.get('materias', [])
+        self.disponibilidad = kwargs.get('disponibilidad', [])
         
         # Campos de Auditoría (SGSI)
         self.created_at = datetime.now(timezone.utc)
         self.last_login = None
-        self.is_active = True   
+        self.is_active = True  
 
     def save(self):
         """Guarda el usuario en la BD con la contraseña hasheada"""
@@ -32,14 +31,24 @@ class User:
             "nombre": self.nombre,
             "email": self.email,
             "password": pw_hash,
-            "semestre": self.semestre,
             "rol": self.rol,
-            "materias": self.materias,
-            "disponibilidad": self.disponibilidad,
             "created_at": self.created_at,
             "last_login": self.last_login,
             "is_active": self.is_active
         }
+
+        if self.rol == "estudiante":
+            if not self.semestre:
+                return {"error": "El semestre es obligatorio para estudiantes"}, 400
+            user_data["semestre"] = int(self.semestre)
+        elif self.rol == "tutor":
+            if not self.semestre:
+                return {"error": "El semestre es obligatorio para tutores"}, 400
+            user_data["semestre"] = int(self.semestre)
+            user_data["materias"] = self.materias
+            user_data["disponibilidad"] = self.disponibilidad
+        elif self.rol == "admin":
+            pass
 
         result = mongo.db.users.insert_one(user_data)
         return {"id": str(result.inserted_id), "message": "Usuario creado"}, 201

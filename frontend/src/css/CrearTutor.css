@@ -1,0 +1,153 @@
+/* Contenedor Principal */
+.crear-tutor-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f0f5f8;
+  font-family: 'Arial', sans-serif;
+  padding: 40px 20px;
+}
+
+/* Caja Blanca del Formulario */
+.crear-tutor-box {
+  background: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 100%;
+  max-width: 600px; /* Un poco más ancho para que quepan las materias */
+  transition: transform 0.3s ease;
+}
+
+.crear-tutor-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Títulos */
+.crear-tutor-box h1 {
+  color: #222088;
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* Campos del Formulario */
+.tutor-form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #555;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #222088;
+  box-shadow: 0 0 8px rgba(34, 32, 136, 0.3);
+}
+
+/* --- GRID DE MATERIAS (CHECKBOXES) --- */
+.materias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  max-height: 200px; /* Scroll si hay muchas materias */
+  overflow-y: auto;
+}
+
+.materia-checkbox {
+  display: flex !important; /* Forzamos flex para alinear caja y texto */
+  align-items: center;
+  cursor: pointer;
+  font-weight: normal !important;
+  font-size: 0.9rem !important;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.materia-checkbox:hover {
+  background-color: #e8eaf6;
+}
+
+.materia-checkbox input {
+  width: auto !important; /* Reseteamos el ancho 100% de los inputs generales */
+  margin-right: 10px;
+  accent-color: #222088; /* Color del check */
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.selection-count {
+  font-size: 0.85rem;
+  color: #222088;
+  margin-top: 8px;
+  text-align: right;
+  font-weight: 600;
+}
+
+/* Botón de Enviar */
+.submit-btn {
+  background-color: #222088;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+  box-shadow: 0 4px 14px rgba(34, 32, 136, 0.4);
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background-color: #02006e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(2, 0, 110, 0.6);
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}

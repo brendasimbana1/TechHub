@@ -7,6 +7,7 @@
 }
 
 .navbar-list {
+  width: 100%; 
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
@@ -15,6 +16,7 @@
   align-items: center;
   gap: 24px;
   list-style: none;
+  box-sizing: border-box;
 }
 
 .navbar-list li {
@@ -49,7 +51,6 @@
     border-color 0.25s ease;
 }
 
-/* Hover */
 .navbar-list a:hover {
   background-color: #1d4ed8;
   color: #ffffff;
@@ -58,11 +59,56 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
-/* Active */
 .navbar-list a.active {
   background-color: #1e40af;
   color: #ffffff;
   border-color: #e0e7ff;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
   transform: scale(1.05);
+}
+
+.navbar-logout-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.flex-spacer {
+  flex-grow: 1;
+  list-style: none;
+}
+
+.logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f7ff;
+  color: #1e3a8a;        
+
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  padding: 16px 22px;
+
+  font-family: inherit;
+  font-size: 18px; 
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  
+  transform-origin: center;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.25s ease;
+}
+
+.logout-btn:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border-color: #e0e7ff;
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }

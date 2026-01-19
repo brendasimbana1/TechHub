@@ -5,21 +5,22 @@ from flask_jwt_extended import create_access_token
 from bson.objectid import ObjectId
 
 from app.models.user import User
+from app.utils.logger import registrar_log
 
 auth_bp = Blueprint('auth', __name__)
+
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.json
     
-    semestre = int(data.get('semestre', 1))
-    rol = "tutor" if semestre > 6 else "estudiante"
+    rol = "estudiante"
     
     nuevo_usuario = User(
         email=data['email'],
         password=data['password'],
         nombre=data['nombre'],
-        semestre=semestre,
-        rol=rol
+        rol=rol,
+        semestre=data.get('semestre')
     )
     
     respuesta, status = nuevo_usuario.save()
@@ -39,14 +40,33 @@ def login():
     if usuario_encontrado:
         token = create_access_token(
             identity=str(usuario_encontrado['_id']), 
-            additional_claims={"rol": usuario_encontrado['rol']}
+            additional_claims={
+                "rol": usuario_encontrado['rol'],
+                "nombre": usuario_encontrado['nombre']
+            }
         )
-        
+
+        registrar_log(
+            email=email,
+            rol=usuario_encontrado['rol'],
+            accion="LOGIN_EXITOSO",
+            detalle=f"Usuario {usuario_encontrado['nombre']} inició sesión correctamente.",
+            ip_address=request.remote_addr
+        )
+
         return jsonify({
             "message": "Login exitoso",
             "token": token,
             "rol": usuario_encontrado['rol'],
-            "nombre": usuario_encontrado['nombre']
+            "nombre": usuario_encontrado['nombre'],
+            "id": str(usuario_encontrado['_id'])
         }), 200
     
+    registrar_log(
+        email=email if email else "Anónimo",
+        rol="desconocido",
+        accion="LOGIN_FALLIDO",
+        detalle="Intento de acceso con credenciales incorrectas o inexistentes.",
+        ip_address=request.remote_addr
+    )
     return jsonify({"error": "Correo o contraseña incorrectos"}), 401

@@ -20,35 +20,50 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
     <nav className="navbar">
       <ul className="navbar-list">
         <li>
-          <NavLink  to="/"end>Inicio</NavLink >
+          <NavLink to="/" end>Inicio</NavLink>
         </li>
+        
         {!isAuthenticated ? (
           <li>
-            <NavLink  to="/login">Iniciar Sesión</NavLink >
+            <NavLink to="/login">Iniciar Sesión</NavLink>
           </li>
         ) : (
           <>
             {rol === "tutor" && (
               <>
                 <li>
-                  <NavLink  to="/gestionar">Gestionar</NavLink >
+                  <NavLink to="/gestionar">Mi Horario</NavLink>
                 </li>
                 <li>
-                  <NavLink  to="/horario">Horario</NavLink >
+                  <NavLink to="/solicitudes">Solicitudes</NavLink>
                 </li>
               </>
             )}
+
             {rol === "estudiante" && (
               <>
                 <li>
-                  <NavLink  to="/cita">Tutorias</NavLink >
+                  <NavLink to="/cita">Solicitar Tutoría</NavLink>
                 </li>
                 <li>
-                  <NavLink  to="/MisCitas"> Mis Citas</NavLink >
+                  <NavLink to="/MisCitas">Mis Citas</NavLink>
                 </li>
               </>
             )}
-            <li>
+
+            {rol === "admin" && (
+              <>
+                <li>
+                  <NavLink to="/admin/crear-tutor">Crear Tutor</NavLink>
+                </li>
+                <li>
+                  <NavLink to="/admin/actividad">Actividad</NavLink>
+                </li>
+              </>
+            )}
+
+            <li className="flex-spacer"></li>
+            <li className="navbar-logout-container">
               <button className="logout-btn" onClick={handleLogout}>Cerrar sesión</button>
             </li>
           </>

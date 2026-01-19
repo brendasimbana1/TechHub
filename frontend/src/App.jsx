@@ -1,18 +1,30 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Toaster } from 'react-hot-toast';
 
+
+// Componentes Globales
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Banner from "./components/Banner";
 
+// Páginas Públicas
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+
+// Páginas de Estudiante
 import Cita from "./pages/Cita.jsx";
 import MisCitas from "./pages/MisCitas.jsx";
+
+// Páginas de Tutor
 import Gestionar from "./pages/Gestionar.jsx";
-import Register
-  from "./pages/Register.jsx";
+// import Solicitudes from "./pages/Solicitudes.jsx";
+
+// Páginas de Admin
+import CrearTutor from "./pages/CrearTutor.jsx";
+import Actividad from "./pages/Actividad.jsx";  
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [rol, setRol] = useState(null);
@@ -23,7 +35,7 @@ function App() {
 
     if (auth === "true") {
       setIsAuthenticated(true);
-      setRol(Number(storedRol));
+      setRol(storedRol);
     }
   }, []);
 
@@ -76,22 +88,41 @@ function App() {
         rol={rol}
       />
 
-      <main>
+      <main style={{ minHeight: '80vh' }}>
         <Routes>
+          {/* --- RUTAS PÚBLICAS --- */}
           <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={
-              <Login
-                setIsAuthenticated={setIsAuthenticated}
-                setRole={setRol}
-              />
-            }
+          <Route 
+            path="/login" 
+            element={<Login setIsAuthenticated={setIsAuthenticated} setRole={setRol} />} 
           />
-          <Route path="/cita" element={<Cita />} />
-          <Route path="/MisCitas" element={<MisCitas />} />
-          <Route path="/gestionar" element={<Gestionar />} />
           <Route path="/register" element={<Register />} />
+
+          {/* --- RUTAS DE ESTUDIANTE --- */}
+          {isAuthenticated && rol === 'estudiante' && (
+            <>
+              <Route path="/cita" element={<Cita />} />
+              <Route path="/MisCitas" element={<MisCitas />} />
+            </>
+          )}
+
+          {/* --- RUTAS DE TUTOR --- */}
+          {isAuthenticated && rol === 'tutor' && (
+            <>
+              <Route path="/gestionar" element={<Gestionar />} /> 
+              {/* <Route path="/solicitudes" element={<Solicitudes />} /> */}
+            </>
+          )}
+
+          {/* --- RUTAS DE ADMIN --- */}
+          {isAuthenticated && rol === 'admin' && (
+            <>
+              <Route path="/admin/crear-tutor" element={<CrearTutor />} />
+              <Route path="/admin/actividad" element={<Actividad />} />
+            </>
+          )}
+
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
 

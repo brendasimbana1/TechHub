@@ -1,0 +1,118 @@
+/* Contenedor principal (Hereda el gris suave de fondo) */
+.actividad-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background-color: #f0f5f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alineado arriba, no al centro vertical */
+}
+
+/* La tarjeta blanca */
+.actividad-card {
+  background: #fff;
+  width: 100%;
+  max-width: 1100px; /* Más ancho que el login para que quepa la tabla */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.actividad-header h1 {
+  color: #222088;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.actividad-header p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+/* --- TABLA --- */
+.table-responsive {
+  overflow-x: auto; /* Permite scroll horizontal en móviles */
+}
+
+.logs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.95rem;
+}
+
+.logs-table th {
+  background-color: #222088; /* Tu azul corporativo */
+  color: white;
+  text-align: left;
+  padding: 14px;
+  font-weight: 600;
+  border-radius: 4px 4px 0 0; /* Solo esquinas superiores en header */
+}
+
+.logs-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+/* Efecto cebra (filas alternadas) */
+.logs-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.logs-table tbody tr:hover {
+  background-color: #eef2ff; /* Azul muy tenue al pasar el mouse */
+}
+
+/* --- BADGES (Etiquetas de Rol) --- */
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-admin {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #bbdefb;
+}
+
+.badge-tutor {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid #ffe0b2;
+}
+
+.badge-estudiante {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+/* --- TEXTO DE COLUMNAS --- */
+.col-fecha {
+  white-space: nowrap; /* Evita que la fecha se parta en dos líneas */
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.col-user {
+  font-weight: 600;
+}
+
+.col-detalle {
+  color: #666;
+  font-style: italic;
+}
+
+.loading-state, .empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-style: italic;
+}
