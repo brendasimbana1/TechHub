@@ -15,10 +15,12 @@ def create_app(config_class=Config):
     from app.routes.tutorias import citas_bp
     from app.routes.admin import admin_bp
     from app.routes.tutor import tutor_bp
+    from app.routes.student import student_bp
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(citas_bp, url_prefix='/api/tutorias')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
     app.register_blueprint(tutor_bp, url_prefix='/api/tutor')
+    app.register_blueprint(student_bp, url_prefix='/api/student')
 
     return app

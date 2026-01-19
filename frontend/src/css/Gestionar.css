@@ -121,7 +121,7 @@
   width: 100%;
   margin-top: 30px;
   padding: 15px;
-  background-color: #28a745;
+  background-color: #222088;
   color: white;
   border: none;
   border-radius: 8px;
@@ -132,7 +132,7 @@
 }
 
 .save-btn:hover:not(:disabled) {
-  background-color: #218838;
+  background-color: #1a1866;
 }
 
 .save-btn:disabled {

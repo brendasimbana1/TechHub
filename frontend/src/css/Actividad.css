@@ -1,18 +1,17 @@
-/* Contenedor principal (Hereda el gris suave de fondo) */
 .actividad-container {
   min-height: 100vh;
   padding: 40px 20px;
   background-color: #f0f5f8;
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Alineado arriba, no al centro vertical */
+  align-items: flex-start; 
+  text-align: center;
 }
 
-/* La tarjeta blanca */
 .actividad-card {
   background: #fff;
   width: 100%;
-  max-width: 1100px; /* Más ancho que el login para que quepa la tabla */
+  max-width: 1100px;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -30,9 +29,8 @@
   font-size: 0.95rem;
 }
 
-/* --- TABLA --- */
 .table-responsive {
-  overflow-x: auto; /* Permite scroll horizontal en móviles */
+  overflow-x: auto; 
 }
 
 .logs-table {
@@ -43,12 +41,12 @@
 }
 
 .logs-table th {
-  background-color: #222088; /* Tu azul corporativo */
+  background-color: #222088;
   color: white;
   text-align: left;
   padding: 14px;
   font-weight: 600;
-  border-radius: 4px 4px 0 0; /* Solo esquinas superiores en header */
+  border-radius: 4px 4px 0 0; 
 }
 
 .logs-table td {
@@ -57,16 +55,14 @@
   color: #333;
 }
 
-/* Efecto cebra (filas alternadas) */
 .logs-table tbody tr:nth-child(even) {
   background-color: #f8f9fa;
 }
 
 .logs-table tbody tr:hover {
-  background-color: #eef2ff; /* Azul muy tenue al pasar el mouse */
+  background-color: #eef2ff; 
 }
 
-/* --- BADGES (Etiquetas de Rol) --- */
 .badge {
   padding: 4px 10px;
   border-radius: 12px;
@@ -94,9 +90,8 @@
   border: 1px solid #c8e6c9;
 }
 
-/* --- TEXTO DE COLUMNAS --- */
 .col-fecha {
-  white-space: nowrap; /* Evita que la fecha se parta en dos líneas */
+  white-space: nowrap; 
   color: #555;
   font-size: 0.9rem;
 }

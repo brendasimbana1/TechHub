@@ -1,164 +1,177 @@
-import React, { useState, useEffect } from 'react';
-import '../css/Cita.css';
-import { fetchMaterias, registrarCita, fetchTutores, fetchHorariosDisponibles } from '../services/apiService';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import "../css/Cita.css";
 
 const Cita = () => {
   const [materias, setMaterias] = useState([]);
-  const [selectedMateria, setSelectedMateria] = useState('');
-  const [date, setDate] = useState("");
   const [tutores, setTutores] = useState([]);
-  const [selectedTutor, setSelectedTutor] = useState('');
-  const [availableHours, setAvailableHours] = useState([]);
-  const [hour, setHour] = useState("");
-  const [reason, setReason] = useState("");
-  const navigate = useNavigate();
+  const [materiaSeleccionada, setMateriaSeleccionada] = useState("");
+  const [tutorSeleccionado, setTutorSeleccionado] = useState(null);
+  const [horarioSeleccionado, setHorarioSeleccionado] = useState(null); // Nuevo estado
+  const [formData, setFormData] = useState({
+    mensaje: ""
+  });
+  const [loading, setLoading] = useState(false);
 
- useEffect(() => {
-  const getMaterias = async () => {
-    try {
-      const data = await fetchMaterias();
-      if (Array.isArray(data)) {
-        setMaterias(data);
-      } else {
-        console.error("Materias no es un array:", data);
-        setMaterias([]);
-      }
-    } catch (error) {
-      console.error("Error al obtener materias:", error);
-      setMaterias([]);
-    }
-  };
-  getMaterias();
-}, []);
-    useEffect(() => {
-      const getTutores = async () => {
-        if (selectedMateria) {
-          const data = await fetchTutores(selectedMateria);
-          setTutores(data);
-        }
-      };
-      getTutores();
-    }, [selectedMateria]);
+  useEffect(() => {
+    const fetchMaterias = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/admin/materias", {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) setMaterias(await res.json());
+    };
+    fetchMaterias();
+  }, []);
 
-    useEffect(() => {
-      const getHorarios = async () => {
-        if (selectedTutor && date) {
-          const data = await fetchHorariosDisponibles(selectedTutor, date);
-          setAvailableHours(data);
-        }
-      };
-      getHorarios();
-    }, [selectedTutor, date]);
-  
+  useEffect(() => {
+    if (!materiaSeleccionada) return;
+    const fetchTutoresPorMateria = async () => {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`http://localhost:5000/api/student/tutors?materia=${materiaSeleccionada}`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) setTutores(await res.json());
+    };
+    fetchTutoresPorMateria();
+    setTutorSeleccionado(null);
+    setHorarioSeleccionado(null);
+  }, [materiaSeleccionada]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedMateria || !selectedTutor || !selectedMateria || !date || !hour || !reason) {
-      alert('Por favor, completa todos los campos.');
+    if (!formData.mensaje.trim()) {
+      toast.error("Por favor, describe los temas a revisar.");
       return;
-  }
-    const userId = localStorage.getItem('userId');
-    const CitaData = { 
-      pacienteId: userId,
-      tutorId: selectedTutor,
-      materia: selectedMateria,
-      fecha: date,
-      hora: hour,
-      motivo: reason,
-  }
-    const result = await registrarCita(CitaData);
-    if (result.message === 'Cita registrada exitosamente.') {
-        alert(result.message);
-        navigate("/MisCitas"); 
-      }else{
-      alert("Error al registar la cita");
+    }
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      const payload = {
+        tutor_id: tutorSeleccionado.id,
+        materia: materiaSeleccionada,
+        fecha: horarioSeleccionado.dia,
+        hora: `${horarioSeleccionado.horaInicio} - ${horarioSeleccionado.horaFin}`,
+        mensaje: formData.mensaje
+      };
+
+      const res = await fetch("http://localhost:5000/api/student/request-tutor", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        toast.success("Tutoría solicitada correctamente");
+        setMateriaSeleccionada("");
+        setTutorSeleccionado(null);
+        setHorarioSeleccionado(null);
+        setFormData({ mensaje: "" });
+      } else {
+        const err = await res.json();
+        toast.error(err.error || "Error al procesar solicitud");
       }
+    } catch (error) {
+      toast.error("Error de conexión");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="form-container">
-      <div className="form-container-box">
-        <h2>Formulario de Cita Médica</h2>
-        <form className="appointment-form" onSubmit={handleSubmit}>
+    <div className="cita-container">
+      <div className="cita-box">
+        <div className="header-section">
+          <h1>Solicitar Tutoría</h1>
+          <p className="subtitle">Encuentra apoyo académico en cuatro pasos.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="cita-form">
           <div className="form-group">
-          <div className="form-group">
-            <label>Materia:</label>
+            <label className="step-label">1. Selecciona la Asignatura</label>
             <select
-              className="input-field"
-              value={selectedMateria}
-              onChange={(e) => setSelectedMateria(e.target.value)}
+              value={materiaSeleccionada}
+              onChange={(e) => setMateriaSeleccionada(e.target.value)}
+              required
             >
-              <option value="">Seleccione una materia</option>
-              {materias.map((materia, index) => (
-                <option key={index} value={materia.nombre}>
-                  {materia.nombre}
-                </option>
-              ))}
+              <option value="">Buscar materia...</option>
+              {materias.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
           </div>
-          </div>
 
-          {tutores.length > 0 && (
-            <div className="form-group">
-              <label>Tutor:</label>
-              <select
-                className="input-field"
-                value={selectedTutor}
-                onChange={(e) => setSelectedTutor(e.target.value)}
-              >
-                <option value="">Seleccione un tutor</option>
-                {tutores.map((tutor, index) => (
-                  <option key={index} value={tutor}>
-                    {tutor}
-                  </option>
+          {materiaSeleccionada && (
+            <div className="form-group fade-in">
+              <label className="step-label">2. Elige un Tutor disponible</label>
+              <div className="tutor-grid">
+                {tutores.map(t => (
+                  <div
+                    key={t.id}
+                    className={`tutor-card ${tutorSeleccionado?.id === t.id ? 'active' : ''}`}
+                    onClick={() => {
+                      setTutorSeleccionado(t);
+                      setHorarioSeleccionado(null); // Reset horario al cambiar tutor
+                    }}
+                  >
+                    <div className="tutor-avatar">{t.nombre.charAt(0)}</div>
+                    <div className="tutor-info">
+                      <strong>{t.nombre}</strong>
+                      <span>{t.semestre}º Semestre</span>
+                    </div>
+                  </div>
                 ))}
-              </select>
+              </div>
             </div>
           )}
-          <div className="form-group">
-            <label>Fecha:</label>
-            <input
-              type="date"
-              className="input-field"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
 
-          
-          {availableHours.length > 0 && (
-          <div className="form-group">
-          <label>Hora:</label>
-          <select
-            className="select-input"
-            value={hour}
-            onChange={(e) => setHour(e.target.value)}
-          >
-            <option value="">Seleccione una hora</option>
-            {availableHours.map((hora, index) => (
-              <option key={index} value={hora}>
-                {hora}
-              </option>
-            ))}
-          </select>
-          </div>
-        )}
-          
+          {tutorSeleccionado && (
+            <div className="details-section fade-in">
 
-          
-          <div className="form-group">
-            <label>Motivo de consulta:</label>
-            <input
-              type="text"
-              className="input-field"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="Ingrese el motivo de consulta"
-            />
-          </div>
+              <label className="step-label">3. Selecciona un horario de {tutorSeleccionado.nombre}</label>
+              <div className="horarios-grid">
+                {tutorSeleccionado.disponibilidad && tutorSeleccionado.disponibilidad.length > 0 ? (
+                  tutorSeleccionado.disponibilidad.map((h, i) => (
+                    <div
+                      key={i}
+                      className={`horario-slot ${horarioSeleccionado === h ? 'selected' : ''}`}
+                      onClick={() => setHorarioSeleccionado(h)}
+                    >
+                      <span className="dia-tag">{h.dia}</span>
+                      <span className="hora-tag">{h.horaInicio} - {h.horaFin}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-data-msg">Este tutor no ha configurado su disponibilidad aún.</p>
+                )}
+              </div>
 
-          <button className="submit-button" type="submit">Enviar</button>
+              {horarioSeleccionado && (
+                <div className="fade-in">
+                  <div className="form-group">
+                    <label className="step-label required-label">4. Comenta los temas que deseas revisar</label>
+                    <textarea
+                      name="mensaje"
+                      value={formData.mensaje}
+                      onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
+                      placeholder="Ej: Resolución de ejercicios sobre herencia y polimorfismo en Java..."
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="submit-btn" 
+                    disabled={loading || !horarioSeleccionado || !formData.mensaje.trim()}
+                  >
+                    {loading ? "Procesando..." : "Enviar   Solicitud de Tutoría"}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </form>
       </div>
     </div>

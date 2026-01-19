@@ -1,4 +1,3 @@
-/* Contenedor principal con fondo gris claro/azul */
 .solicitudes-container {
   display: flex;
   justify-content: center;
@@ -8,7 +7,6 @@
   font-family: 'Arial', sans-serif;
 }
 
-/* Caja blanca que contiene todo (estilo CrearTutor) */
 .solicitudes-box {
   background: #fff;
   width: 100%;
@@ -35,14 +33,12 @@
   font-size: 1rem;
 }
 
-/* Grilla de tarjetas */
 .requests-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
-/* Estilo de cada tarjeta de solicitud */
 .request-card {
   background: #fff;
   border: 1px solid #eef0f2;
@@ -58,7 +54,6 @@
   box-shadow: 0 6px 15px rgba(34, 32, 136, 0.1);
 }
 
-/* Barra lateral azul en la tarjeta */
 .card-status-bar {
   width: 6px;
   background-color: #222088;
@@ -85,7 +80,6 @@
   font-weight: 700;
 }
 
-/* Píldora de estado (Badge) */
 .status-pill {
   font-size: 0.7rem;
   font-weight: 800;
@@ -103,24 +97,36 @@
 
 .info-row {
   display: flex;
-  gap: 15px;
-  margin: 12px 0;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.9rem;
   color: #222088;
   font-weight: 600;
 }
 
-.request-note {
-  font-style: italic;
-  font-size: 0.85rem;
-  color: #888;
-  background: #f9f9f9;
-  padding: 8px;
-  border-radius: 6px;
-  border-left: 2px solid #ddd;
+.card-icon {
+  width: 16px;
+  height: 16px;
+  stroke: #222088;
+  flex-shrink: 0;
 }
 
-/* Botón de acción dentro de la tarjeta */
+.request-note {
+  background: #f8fafc;
+  border-left: 3.5px solid #cbd5e1;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: #475569;
+}
+
 .action-btn {
   margin-top: 1rem;
   width: 100%;
@@ -136,14 +142,6 @@
 
 .action-btn:hover {
   background-color: #1a1866;
-}
-
-/* Estados vacíos y carga */
-.empty-state {
-  text-align: center;
-  padding: 3rem;
-  color: #999;
-  font-style: italic;
 }
 
 .loading-screen {
@@ -206,4 +204,30 @@
 .refresh-btn:hover {
   background-color: #222088;
   color: #fff;
+}
+
+.card-status-bar.pendiente { background-color: #222088; }
+.card-status-bar.completada { background-color: #28a745; }
+
+.status-pill.pendiente { background: #eef0ff; color: #222088; }
+.status-pill.completada { background: #d4edda; color: #155724; }
+
+.completed-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background-color: #f0fff4;
+    color: #28a745;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    border: 1px solid #c6f6d5;
+    margin-top: 1rem;
+}
+
+.check-icon {
+    width: 16px;
+    height: 16px;
 }
