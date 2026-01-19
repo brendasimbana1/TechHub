@@ -122,3 +122,42 @@ def get_my_requests():
     except Exception as e:
         logger.error(f"Error al obtener citas del estudiante: {e}")
         return jsonify({"error": "Error al cargar el historial de tutorías"}), 500
+    
+@student_bp.route('/requests/<request_id>', methods=['DELETE'])
+@jwt_required()
+def cancel_request(request_id):
+    """Permite al estudiante cancelar una solicitud de tutoría pendiente"""
+    estudiante_id = get_jwt_identity()
+    
+    try:
+        solicitud = mongo.db.solicitudes.find_one({
+            "_id": ObjectId(request_id),
+            "estudiante_id": str(estudiante_id)
+        })
+
+        if not solicitud:
+            return jsonify({"error": "No se encontró la tutoría o no tienes permiso para cancelarla"}), 404
+        
+        if solicitud.get("estado") != "pendiente":
+            return jsonify({"error": "No es posible cancelar una tutoría que ya ha sido marcada como completada"}), 400
+
+        mongo.db.solicitudes.delete_one({"_id": ObjectId(request_id)})
+
+        estudiante_user = mongo.db.users.find_one({"_id": ObjectId(estudiante_id)}, {"email": 1})
+        email_log = estudiante_user['email'] if estudiante_user else "Estudiante"
+
+        registrar_log(
+            email=email_log,
+            rol="estudiante",
+            accion="CANCELAR_TUTORIA",
+            detalle=f"Canceló la tutoría de {solicitud.get('materia')} programada para el {solicitud.get('fecha')}",
+            ip_address=request.remote_addr
+        )
+
+        logger.info(f"Tutoría {request_id} cancelada por {email_log}")
+        
+        return jsonify({"message": "Tutoría cancelada correctamente"}), 200
+
+    except Exception as e:
+        logger.error(f"Error al cancelar solicitud: {e}")
+        return jsonify({"error": "Error interno del servidor"}), 500
