@@ -11,7 +11,6 @@ const Gestionar = () => {
   const [horaInicio, setHoraInicio] = useState('');
   const [horaFin, setHoraFin] = useState('');
 
-  // Obtener materias
   useEffect(() => {
     const getMaterias = async () => {
       const data = await fetchMaterias();
@@ -20,7 +19,6 @@ const Gestionar = () => {
     getMaterias();
   }, []);
 
-  // Obtener tutores según materia
   useEffect(() => {
     const getTutores = async () => {
       if (selectedMateria) {

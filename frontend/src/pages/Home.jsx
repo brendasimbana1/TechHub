@@ -1,10 +1,13 @@
 import React from 'react';
 import '../css/Home.css';
 import logo from "../assets/ups2.jpg"; 
+import Banner from "../components/Banner";
+
 
 const Home = () => {
   return (
-    <div className="home-page">
+    <>
+      <div className="home-page">
       <h1 className='titulo'>Bienvenido a TechHub</h1>
       
       <p>
@@ -71,6 +74,8 @@ const Home = () => {
         TechHub.
       </p>
     </div>
+    </>
+    
   );
 };
 

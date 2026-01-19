@@ -34,7 +34,7 @@ const Login = ({ setIsAuthenticated, setRole }) => {
       setError("Credenciales incorrectas o error de servidor");
     } finally {
       setLoading(false);
-      setFormData({ correo: "", password: "" });
+      //setFormData({ correo: "", password: "" });
     }
   };
 

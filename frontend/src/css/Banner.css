@@ -1,14 +1,19 @@
 .banner {
+  width: 100%;
+  min-height: 60vh;
+
   background-image: url('../assets/image.jpg');
   background-size: cover;
   background-position: center;
+
   position: relative;
   color: white;
   text-align: center;
+
   padding: 50px 20px;
+  margin: 0;
+
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  margin-bottom: 5px; 
 }
 
 .banner::after {
@@ -20,7 +25,6 @@
   bottom: 0;
   background: rgba(0, 0, 0, 0.6); 
   z-index: 0;
-  border-radius: 10px; 
 }
 
 .banner-content {
@@ -29,17 +33,17 @@
 }
 
 .banner-content h1 {
-  font-size: 3.5em;
-  margin: 0; 
+  font-size: 5.5em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+  padding-bottom: 0;
 }
 
 .banner-content p {
   font-size: 1.5em; 
-  margin-top: 10px;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
   color: #ffffff; 
   font-weight: normal; 
+  font-style: italic;
 }
 
 @media (max-width: 768px) {

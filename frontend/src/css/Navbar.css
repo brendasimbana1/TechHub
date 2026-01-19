@@ -1,47 +1,68 @@
 .navbar {
-    background-color: #4a73e4;
-    padding: 10px 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    position: relative;
-    top: 0;
-    z-index: 1000;
-    margin-bottom: 1%;
+  width: 100%;
+  background-color: #2f5fd7;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  padding: 22px 0;
 }
 
 .navbar-list {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
 }
 
 .navbar-list li {
-    margin: 0;
-    padding: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
-.navbar-list li a,
-.navbar-list li button {
-    background-color: white;
-    color: #08068f;
-    border: 1.5px solid white;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 10px 18px;
-    border-radius: 5px;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.25s ease, color 0.25s ease;
-    box-sizing: border-box;
-    display: inline-block;
-    user-select: none;
+.navbar-list a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #f5f7ff;
+  color: #1e3a8a;
+
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+
+  padding: 12px 22px;
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transform-origin: center;
+
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.25s ease;
 }
 
-.navbar-list li a:hover,
-.navbar-list li button:hover {
-    background-color: #2945c4;
-    color: white;
-    border-color: white;
+/* Hover */
+.navbar-list a:hover {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  border-color: #e0e7ff;
+  transform: scale(1.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Active */
+.navbar-list a.active {
+  background-color: #1e40af;
+  color: #ffffff;
+  border-color: #e0e7ff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
 }

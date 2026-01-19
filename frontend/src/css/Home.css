@@ -1,17 +1,12 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f7f9;
-}
-
 .home-page {
-    text-align: center;
-    padding: 20px;
-    max-width: 1200px;
-    margin: auto;
+    margin: 0 auto;
     background-color: #ffffff;
-    border-radius: 8px; 
+    border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 60%;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
 }
 
 .titulo {
@@ -24,7 +19,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin: 20px 0;
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 
 const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
@@ -15,31 +15,31 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
     <nav className="navbar">
       <ul className="navbar-list">
         <li>
-          <Link to="/">Home</Link>
+          <NavLink  to="/"end>Inicio</NavLink >
         </li>
         {!isAuthenticated ? (
           <li>
-            <Link to="/login">Login</Link>
+            <NavLink  to="/login">Iniciar Sesión</NavLink >
           </li>
         ) : (
           <>
             {rol === 1 && (
               <>
                 <li>
-                  <Link to="/gestionar">Gestionar</Link>
+                  <NavLink  to="/gestionar">Gestionar</NavLink >
                 </li>
                 <li>
-                  <Link to="/horario">Horario</Link>
+                  <NavLink  to="/horario">Horario</NavLink >
                 </li>
               </>
             )}
             {rol === 2 && (
               <>
                 <li>
-                  <Link to="/cita">Tutorias</Link>
+                  <NavLink  to="/cita">Tutorias</NavLink >
                 </li>
                 <li>
-                  <Link to="/MisCitas"> Mis Citas</Link>
+                  <NavLink  to="/MisCitas"> Mis Citas</NavLink >
                 </li>
               </>
             )}

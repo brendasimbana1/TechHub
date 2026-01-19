@@ -32,7 +32,7 @@ const Register = () => {
           nombre: formData.nombre,
           correo: formData.correo,
           password: formData.password,
-          rol: 2,  // Siempre estudiante
+          rol: 2, 
         });
   
         if (result.message === "Usuario registrado con éxito.") {
