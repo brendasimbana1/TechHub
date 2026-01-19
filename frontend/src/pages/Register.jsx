@@ -8,6 +8,7 @@ const Register = () => {
       nombre: "",
       correo: "",
       password: "",
+      semestre: "",
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -21,33 +22,35 @@ const Register = () => {
       e.preventDefault();
       setLoading(true);
   
-      if (!formData.nombre || !formData.correo || !formData.password) {
+      if (!formData.nombre || !formData.correo || !formData.password || !formData.semestre) {
         alert("Por favor, completa todos los campos.")
         setLoading(false);
         return;
       }
   
       try {
-        const result = await registerUser({
-          nombre: formData.nombre,
-          correo: formData.correo,
-          password: formData.password,
-          rol: 2, 
-        });
+        const datosParaBackend = {
+            nombre: formData.nombre,
+            email: formData.correo,     
+            password: formData.password,
+            semestre: parseInt(formData.semestre) 
+        };
+        const result = await registerUser(datosParaBackend);
   
-        if (result.message === "Usuario registrado con éxito.") {
+        if (result.message === "Usuario creado" || result.message === "Usuario registrado exitosamente") {
           alert(result.message);
           navigate("/login"); 
-        } else if (result.message === "El correo ya está registrado."){
-          alert(result.message);
-          navigate("/register"); 
+        } else if (result.error){
+          alert(result.error);
         }else {
           alert("Error al registrar el usuario")
+          navigate("/login"); 
         }
         setFormData({
           nombre: "",
           correo: "",
           password: "",
+          semestre: ""
         });
       } catch (error) {
         alert("Error al registrar el usuario.")
@@ -71,6 +74,20 @@ const Register = () => {
               value={formData.nombre}
               onChange={handleChange}
               placeholder="Ingresa tu nombre"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="semestre">Semestre</label>
+            <input
+              type="number"
+              id="semestre"
+              name="semestre"
+              min="1"
+              max="8"
+              value={formData.semestre}
+              onChange={handleChange}
+              placeholder="Ej: 4"
               required
             />
           </div>

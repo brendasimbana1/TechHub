@@ -4,9 +4,14 @@ import "../css/Navbar.css";
 
 const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
   const navigate = useNavigate();
+
   const handleLogout = () => {
+    localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('rol');
+    localStorage.removeItem('nombre');
+    localStorage.removeItem('userId');
+
     setIsAuthenticated(false); 
     navigate('/');
   };
@@ -23,7 +28,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
           </li>
         ) : (
           <>
-            {rol === 1 && (
+            {rol === "tutor" && (
               <>
                 <li>
                   <NavLink  to="/gestionar">Gestionar</NavLink >
@@ -33,7 +38,7 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
                 </li>
               </>
             )}
-            {rol === 2 && (
+            {rol === "estudiante" && (
               <>
                 <li>
                   <NavLink  to="/cita">Tutorias</NavLink >
