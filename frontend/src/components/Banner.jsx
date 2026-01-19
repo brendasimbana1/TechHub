@@ -6,7 +6,7 @@ const Banner = () => {
     <>
       <div className="banner">
       <div className="banner-content">
-        <h1>TechHub</h1>
+        <h1>Tech-Hub</h1>
         <p>Software de gestión de tutorías de la carrera de Computación.</p>
       </div>
     </div>
