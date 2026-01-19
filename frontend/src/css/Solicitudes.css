@@ -1,0 +1,209 @@
+/* Contenedor principal con fondo gris claro/azul */
+.solicitudes-container {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f0f5f8;
+  padding: 40px 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Caja blanca que contiene todo (estilo CrearTutor) */
+.solicitudes-box {
+  background: #fff;
+  width: 100%;
+  max-width: 1000px;
+  padding: 2.5rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-section h1 {
+  color: #222088;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Grilla de tarjetas */
+.requests-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Estilo de cada tarjeta de solicitud */
+.request-card {
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(34, 32, 136, 0.1);
+}
+
+/* Barra lateral azul en la tarjeta */
+.card-status-bar {
+  width: 6px;
+  background-color: #222088;
+}
+
+.card-content {
+  padding: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Píldora de estado (Badge) */
+.status-pill {
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: #eef0ff;
+  color: #222088;
+}
+
+.card-body p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.info-row {
+  display: flex;
+  gap: 15px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+  color: #222088;
+  font-weight: 600;
+}
+
+.request-note {
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #888;
+  background: #f9f9f9;
+  padding: 8px;
+  border-radius: 6px;
+  border-left: 2px solid #ddd;
+}
+
+/* Botón de acción dentro de la tarjeta */
+.action-btn {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #222088;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.action-btn:hover {
+  background-color: #1a1866;
+}
+
+/* Estados vacíos y carga */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #999;
+  font-style: italic;
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  color: #222088;
+  font-weight: bold;
+}
+
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #fafbfc;
+  border: 2px dashed #e1e8ed;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  color: #222088;
+  background-color: #eef0ff;
+  padding: 15px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.empty-state-container h2 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.empty-state-container p {
+  color: #777;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.refresh-btn {
+  background-color: transparent;
+  color: #222088;
+  border: 1.5px solid #222088;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background-color: #222088;
+  color: #fff;
+}

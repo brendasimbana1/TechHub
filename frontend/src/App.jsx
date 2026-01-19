@@ -19,7 +19,7 @@ import MisCitas from "./pages/MisCitas.jsx";
 
 // Páginas de Tutor
 import Gestionar from "./pages/Gestionar.jsx";
-// import Solicitudes from "./pages/Solicitudes.jsx";
+import Solicitudes from "./pages/Solicitudes.jsx";
 
 // Páginas de Admin
 import CrearTutor from "./pages/CrearTutor.jsx";
@@ -110,7 +110,7 @@ function App() {
           {isAuthenticated && rol === 'tutor' && (
             <>
               <Route path="/gestionar" element={<Gestionar />} /> 
-              {/* <Route path="/solicitudes" element={<Solicitudes />} /> */}
+              <Route path="/solicitudes" element={<Solicitudes />} />
             </>
           )}
 

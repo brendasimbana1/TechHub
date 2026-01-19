@@ -1,119 +1,150 @@
-import React, { useState } from 'react';
-import '../css/Gestionar.css';
-import { registerMateria } from "../services/apiService";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
+import "../css/Gestionar.css";
 
 const Gestionar = () => {
-  const [specialty, setSpecialty] = useState('');
-  const [date, setDate] = useState('');
-  const [name, setName] = useState('');
+  const [horarios, setHorarios] = useState([]);
+  const [nuevoBloque, setNuevoBloque] = useState({
+    dia: "",
+    horaInicio: "",
+    horaFin: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
-  const handleSubmit = async (e) => {
+  const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+  useEffect(() => {
+    const fetchDisponibilidad = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch("http://localhost:5000/api/tutor/availability", {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setHorarios(data);
+        }
+      } catch (error) {
+        console.error("Error al cargar disponibilidad:", error);
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchDisponibilidad();
+  }, []);
+
+  const handleInputChange = (e) => {
+    setNuevoBloque({ ...nuevoBloque, [e.target.name]: e.target.value });
+  };
+
+  const isBloqueValid = nuevoBloque.dia !== "" && nuevoBloque.horaInicio !== "" && nuevoBloque.horaFin !== "";
+
+  const agregarBloque = (e) => {
     e.preventDefault();
-
-    if (!specialty || !name || !date) {
-      alert('Por favor, completa todos los campos.');
+    if (nuevoBloque.horaInicio >= nuevoBloque.horaFin) {
+      toast.error("La hora de inicio debe ser menor a la hora de fin");
       return;
     }
+    setHorarios([...horarios, nuevoBloque]);
+    setNuevoBloque({ dia: "", horaInicio: "", horaFin: "" }); 
+  };
 
-    const materiaData = {
-      nombre: specialty,
-      tutor: name,
-      fechaIngreso: date,
-    };
+  const eliminarBloque = (index) => {
+    const nuevosHorarios = horarios.filter((_, i) => i !== index);
+    setHorarios(nuevosHorarios);
+  };
 
+  const guardarDisponibilidad = async () => {
+    setLoading(true);
     try {
-      const result = await registerMateria(materiaData);
-      if (result.message === 'Materia registrada con éxito') {
-        alert(result.message);
+      const token = localStorage.getItem("token");
+      const res = await fetch("http://localhost:5000/api/tutor/availability", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(horarios)
+      });
 
-      }else if (result.message === 'Error al registrar la materia'){
-        alert(result.message);
-      }else if (result.message === "El nombre ya está registrado."){
-        alert(result.message);
-      }else{
-        alert(result.message);
+      if (res.ok) {
+        toast.success("Disponibilidad guardada correctamente");
+      } else {
+        toast.error("Error al guardar el horario");
       }
-      setSpecialty('');
-      setDate('');
-      setName('');
-      
     } catch (error) {
-      alert("Error al registrar la materia")
-      console.error("Error al registrar la materia", error);
+      toast.error("Error de conexión");
+    } finally {
+      setLoading(false);
     }
   };
 
+  if (fetching) return <div className="loading-screen">Cargando tu configuración...</div>;
+
   return (
-    <div className="form-container">
-      <div className="form-container-box">
-        <h2>Registro de Materias</h2>
-        <form className="appointment-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <br></br>
-            <label>Materia:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  value="Programación"
-                  checked={specialty === 'Programación'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Programación
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Estructura de Datos"
-                  checked={specialty === 'Estructura de Datos'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Estructura de Datos
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Fundamentos de BD"
-                  checked={specialty === 'Fundamentos de BD'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Fundamentos de BD
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Electrónica"
-                  checked={specialty === 'Electrónica'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Electrónica
-              </label>
+    <div className="gestionar-container">
+      <div className="gestionar-box">
+        <h1>Gestionar Horario</h1>
+        <p className="subtitle">Configura los días y horas en los que puedes brindar tutorías.</p>
+
+        <div className="add-schedule-section">
+          <h3>Añadir Bloque de Tiempo</h3>
+          <div className="schedule-form">
+            <div className="input-field">
+              <label>Día</label>
+              <select name="dia" value={nuevoBloque.dia} onChange={handleInputChange}>
+                <option value="">Selecciona un día</option>
+                {diasSemana.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
             </div>
+            <div className="input-field">
+              <label>Desde</label>
+              <input type="time" name="horaInicio" value={nuevoBloque.horaInicio} onChange={handleInputChange} />
+            </div>
+            <div className="input-field">
+              <label>Hasta</label>
+              <input type="time" name="horaFin" value={nuevoBloque.horaFin} onChange={handleInputChange} />
+            </div>
+            <button 
+              className="add-btn" 
+              onClick={agregarBloque} 
+              disabled={!isBloqueValid}
+            >
+              + Añadir
+            </button>
           </div>
+        </div>
 
-          <div className="form-group">
-            <label>Nombre:</label>
-            <input
-              type="text"
-              className="input-field"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Ingrese el nombre del tutor/a"
-            />
-          </div>
+        <hr className="divider" />
 
-          <div className="form-group">
-            <label>Fecha de ingreso:</label>
-            <input
-              type="date"
-              className="input-field"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
-          </div>
+        <div className="current-schedule-section">
+          <h3>Tu Horario Semanal</h3>
+          {horarios.length === 0 ? (
+            <p className="empty-msg">No has definido horarios aún.</p>
+          ) : (
+            <div className="schedule-list">
+              {horarios.map((h, index) => (
+                <div key={index} className="schedule-item">
+                  <div className="item-info">
+                    <strong>{h.dia}:</strong> {h.horaInicio} - {h.horaFin}
+                  </div>
+                  <button className="delete-btn" onClick={() => eliminarBloque(index)}>
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
-          <button className="submit-button" type="submit">Enviar</button>
-        </form>
+        <button 
+          className="save-btn" 
+          onClick={guardarDisponibilidad} 
+          disabled={loading || horarios.length === 0}
+        >
+          {loading ? "Guardando..." : "Guardar Cambios"}
+        </button>
       </div>
     </div>
   );
