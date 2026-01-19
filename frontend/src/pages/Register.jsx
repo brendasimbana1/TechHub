@@ -4,61 +4,63 @@ import { registerUser } from "../services/apiService";
 import "../css/Register.css";
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-      nombre: "",
-      correo: "",
-      password: "",
-      semestre: "",
-    });
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
-  
-    const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-    };
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(true);
-  
-      if (!formData.nombre || !formData.correo || !formData.password || !formData.semestre) {
-        alert("Por favor, completa todos los campos.")
-        setLoading(false);
-        return;
+  const [formData, setFormData] = useState({
+    nombre: "",
+    correo: "",
+    password: "",
+    semestre: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const isFormValid = 
+    formData.nombre.trim() !== "" &&
+    formData.correo.trim() !== "" &&
+    formData.password.length >= 8 && 
+    formData.semestre !== "";
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const datosParaBackend = {
+        nombre: formData.nombre,
+        email: formData.correo,
+        password: formData.password,
+        semestre: parseInt(formData.semestre)
+      };
+      
+      const result = await registerUser(datosParaBackend);
+
+      if (result.message === "Usuario creado" || result.message === "Usuario registrado exitosamente") {
+        alert(result.message);
+        navigate("/login");
+      } else if (result.error) {
+        alert(result.error);
+      } else {
+        alert("Error al registrar el usuario");
+        navigate("/login");
       }
-  
-      try {
-        const datosParaBackend = {
-            nombre: formData.nombre,
-            email: formData.correo,     
-            password: formData.password,
-            semestre: parseInt(formData.semestre) 
-        };
-        const result = await registerUser(datosParaBackend);
-  
-        if (result.message === "Usuario creado" || result.message === "Usuario registrado exitosamente") {
-          alert(result.message);
-          navigate("/login"); 
-        } else if (result.error){
-          alert(result.error);
-        }else {
-          alert("Error al registrar el usuario")
-          navigate("/login"); 
-        }
-        setFormData({
-          nombre: "",
-          correo: "",
-          password: "",
-          semestre: ""
-        });
-      } catch (error) {
-        alert("Error al registrar el usuario.")
-        console.error("Error al registrar el usuario:", error);
-      }
-  
+      
+      setFormData({
+        nombre: "",
+        correo: "",
+        password: "",
+        semestre: ""
+      });
+    } catch (error) {
+      alert("Error al registrar el usuario.");
+      console.error("Error al registrar el usuario:", error);
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
   return (
     <div className="register-container">
@@ -92,7 +94,7 @@ const Register = () => {
             />
           </div>
           <div className="input-group">
-            <label htmlFor="correo">Correo electrónico</label>
+            <label htmlFor="correo">Correo Institucional</label>
             <input
               type="email"
               id="correo"
@@ -111,12 +113,17 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Ingresa tu contraseña"
+              placeholder="Mínimo 8 caracteres"
               minLength={8}
               required
             />
           </div>
-          <button type="submit" className="register-button" disabled={loading}>
+          
+          <button 
+            type="submit" 
+            className="register-button" 
+            disabled={loading || !isFormValid}
+          >
             {loading ? "Registrando..." : "Registrar"}
           </button>
         </form>
