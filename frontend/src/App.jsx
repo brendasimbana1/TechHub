@@ -38,20 +38,19 @@ function App() {
           zIndex: 999999,
         }}
         toastOptions={{
-          // Estilo global para todos los toasts
           style: {
-            minWidth: '350px',       // Más ancho
-            fontSize: '18px',        // Letra más grande
-            fontWeight: '600',       // Texto más grueso
-            padding: '20px',         // Más espacio interno
-            borderRadius: '12px',    // Bordes más redondeados
-            boxShadow: '0 10px 25px rgba(0,0,0,0.2)', // Sombra más profunda
+            minWidth: '350px', 
+            fontSize: '18px', 
+            fontWeight: '600',       
+            padding: '20px',         
+            borderRadius: '12px',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
           },
           success: {
             style: {
-              background: '#e8f5e9', // Fondo verde claro
-              color: '#2e7d32',      // Texto verde oscuro
-              border: '2px solid #4caf50', // Borde notorio
+              background: '#e8f5e9',
+              color: '#2e7d32',
+              border: '2px solid #4caf50',
             },
             iconTheme: {
               primary: '#4caf50',
