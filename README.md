@@ -69,8 +69,7 @@ cd frontend
 npm install
 ```
 Inicie el servidor de desarrollo de Vite:
-```
-Bash
+```Bash
 npm run dev
 ```
 ## Tecnologías Utilizadas
