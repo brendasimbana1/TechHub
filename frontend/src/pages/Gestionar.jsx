@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "../css/Gestionar.css";
+import { fetchAuthorized } from '../services/api';
+
 
 const Gestionar = () => {
   const [horarios, setHorarios] = useState([]);
@@ -18,9 +20,10 @@ const Gestionar = () => {
     const fetchDisponibilidad = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5000/api/tutor/availability", {
+        const res = await fetchAuthorized("http://localhost:5000/api/tutor/availability", {
           headers: { "Authorization": `Bearer ${token}` }
         });
+        if (!res || res.sessionExpired) return;
         const data = await res.json();
         if (res.ok) {
           setHorarios(data);

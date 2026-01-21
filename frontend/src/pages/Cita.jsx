@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "../css/Cita.css";
+import { fetchAuthorized } from '../services/api';
+
 
 const Cita = () => {
   const [materias, setMaterias] = useState([]);
@@ -16,9 +18,10 @@ const Cita = () => {
   useEffect(() => {
     const fetchMaterias = async () => {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/admin/materias", {
+      const res = await fetchAuthorized("http://localhost:5000/api/admin/materias", {
         headers: { "Authorization": `Bearer ${token}` }
       });
+      if (!res || res.sessionExpired) return;
       if (res.ok) setMaterias(await res.json());
     };
     fetchMaterias();
@@ -28,9 +31,10 @@ const Cita = () => {
     if (!materiaSeleccionada) return;
     const fetchTutoresPorMateria = async () => {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/student/tutors?materia=${materiaSeleccionada}`, {
+      const res = await fetchAuthorized(`http://localhost:5000/api/student/tutors?materia=${materiaSeleccionada}`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
+      if (!res || res.sessionExpired) return;
       if (res.ok) setTutores(await res.json());
     };
     fetchTutoresPorMateria();
@@ -163,7 +167,7 @@ const Cita = () => {
 
                   <button
                     type="submit"
-                    className="submit-btn" 
+                    className="submit-btn"
                     disabled={loading || !horarioSeleccionado || !formData.mensaje.trim()}
                   >
                     {loading ? "Procesando..." : "Enviar   Solicitud de Tutoría"}

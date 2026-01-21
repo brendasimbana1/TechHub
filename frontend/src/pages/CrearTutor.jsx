@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "../css/CrearTutor.css";
+import { fetchAuthorized } from '../services/api';
+
 
 const CrearTutor = () => {
   const [formData, setFormData] = useState({
@@ -24,12 +26,12 @@ const CrearTutor = () => {
     const fetchMaterias = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:5000/api/admin/materias", {
+        const response = await fetchAuthorized("http://localhost:5000/api/admin/materias", {
           headers: {
             "Authorization": `Bearer ${token}`
           }
         });
-
+        if (!response || response.sessionExpired) return;
         if (response.ok) {
           const data = await response.json();
           setListaMaterias(data);

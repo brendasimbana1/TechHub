@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import "../css/Solicitudes.css";
+import { fetchAuthorized } from '../services/api';
+
 
 const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
@@ -13,9 +15,10 @@ const Solicitudes = () => {
     const fetchSolicitudes = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:5000/api/tutor/requests", {
+            const res = await fetchAuthorized("http://localhost:5000/api/tutor/requests", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
+            if (!res || res.sessionExpired) return;
             const data = await res.json();
             if (res.ok) {
                 setSolicitudes(data);

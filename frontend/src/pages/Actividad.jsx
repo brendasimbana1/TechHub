@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../css/Actividad.css";
 import { Toaster, toast } from 'react-hot-toast';
+import "../css/Actividad.css";
+import { fetchAuthorized } from '../services/api';
+
 
 const Actividad = () => {
   const [logs, setLogs] = useState([]);
@@ -19,12 +21,12 @@ const Actividad = () => {
       try {
         const token = localStorage.getItem("token");
         
-        const response = await fetch('http://localhost:5000/api/admin/logs', {
+        const response = await fetchAuthorized('http://localhost:5000/api/admin/logs', {
           headers: {
             "Authorization": `Bearer ${token}`
           }
         });
-
+        if(!response || response.sessionExpired ) return;
         if (response.ok) {
           const data = await response.json();
           setLogs(data); 

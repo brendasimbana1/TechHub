@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 import "../css/MisCitas.css";
+import { fetchAuthorized } from '../services/api';
 
 const MisCitas = () => {
     const [citas, setCitas] = useState([]);
@@ -13,10 +14,10 @@ const MisCitas = () => {
     const obtenerCitas = async () => {
         try {
             const token = localStorage.getItem('token');
-            // Usamos el endpoint del estudiante que creamos antes
-            const res = await fetch("http://localhost:5000/api/student/my-requests", {
+            const res = await fetchAuthorized("http://localhost:5000/api/student/my-requests", {
                 headers: { "Authorization": `Bearer ${token}` }
             });
+            if (!res || res.sessionExpired) return;
             const data = await res.json();
             if (res.ok) {
                 setCitas(data);
